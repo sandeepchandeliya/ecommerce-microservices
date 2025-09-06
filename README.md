@@ -1,9 +1,7 @@
-# E-Commerce Microservices
+# 🛒 E-Commerce Microservices Project
 
 ## Project Overview
-A **full-stack e-commerce application** built with **Node.js, Express, MongoDB**, and **Stripe** for payments, structured as **microservices** for scalability and maintainability. All services are **Dockerized** for easy deployment.  
-
-This project demonstrates modern backend architecture, JWT authentication, payment integration, inventory management, and API gateway routing.
+This project is a **full-stack E-Commerce application** built with a **microservices architecture**. Each core functionality is implemented as a separate service to ensure scalability, maintainability, and modularity. The system supports authentication, product management, cart management, order processing, payments (Stripe), and inventory management.
 
 ---
 
@@ -19,23 +17,61 @@ This project demonstrates modern backend architecture, JWT authentication, payme
 
 ---
 
-## 🏗️ Microservices Architecture
-```bash
-  ┌───────────────┐
-  │   API Gateway │
-  └───────┬───────┘
-          │
-┌───────────┼───────────┐
-│ │ │
-Auth Product Cart
-Service Service Service
-│ │ │
-│ │ │
-Order ------------------> Payment
-Service |
-▼
-Inventory
-Service
+
+## Architecture
+
+```text
+                +----------------+
+                |  API Gateway   |
+                +-------+--------+
+                        |
+       -------------------------------------
+       |                 |                 |
+   +---+---+         +---+---+         +---+---+
+   | Auth  |         | Product|        | Cart  |
+   |Service|         |Service |        |Service|
+   +---+---+         +---+---+         +---+---+
+       |                 |                 |
+       +-----------------+-----------------+
+                        |
+                  +-----+------+
+                  |   Order    |
+                  |  Service   |
+                  +-----+------+
+                        |
+                        v
+                  +-----+------+
+                  |  Payment   |
+                  |  Service   |
+                  +-----+------+
+                        |
+                        v
+                  +-----+------+
+                  | Inventory  |
+                  |  Service   |
+                  +------------+
+
+
+```
+## Folder Structure (Example: auth-service)
+```
+auth-service/
+├── controllers/
+│   └── authController.js
+├── models/
+│   └── User.js
+├── routes/
+│   └── authRoutes.js
+├── middlewares/
+│   └── verifyToken.js
+├── config/
+│   └── db.js
+├── .env
+├── package.json
+└── index.js
+```
+> Repeat similar structure for each service (product, cart, order, payment, inventory).
+
 
 
 - **Auth Service**: User registration/login, JWT generation  
@@ -81,8 +117,6 @@ JWT_EXPIRES_IN=1d
 Repeat for each service (product-service, cart-service, etc.), adjusting ports.
 
 
-
-
 Run with Docker
 docker compose up --build
 All services should start and connect to MongoDB
@@ -103,12 +137,12 @@ Inventory: http://localhost:8006/health
 
 API Gateway: http://localhost:8000/health
 
+```
 
-
-🔑 API Endpoints (via API Gateway)
+## 🔑 API Endpoints (via API Gateway)
 Auth Service
 
-POST /auth/register – Register user
+-POST /auth/register – Register user
 
 POST /auth/login – Login & get JWT
 
