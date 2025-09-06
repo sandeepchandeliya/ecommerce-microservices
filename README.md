@@ -20,7 +20,7 @@ This project demonstrates modern backend architecture, JWT authentication, payme
 ---
 
 ## 🏗️ Microservices Architecture
-
+```bash
   ┌───────────────┐
   │   API Gateway │
   └───────┬───────┘
