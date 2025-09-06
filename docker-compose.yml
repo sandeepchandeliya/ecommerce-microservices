@@ -1,0 +1,69 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  auth-service:
+    build: ./services/auth-service
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./services/auth-service/.env
+    depends_on:
+      - mongo
+
+  product-service:
+    build: ./services/product-service
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./services/product-service/.env
+    depends_on:
+      - mongo
+
+  cart-service:
+    build: ./services/cart-service
+    ports:
+      - "8003:8003"
+    env_file:
+      - ./services/cart-service/.env
+    depends_on:
+      - product-service
+      - mongo
+
+  order-service:
+    build: ./services/order-service
+    ports:
+      - "8004:8004"
+    env_file:
+      - ./services/order-service/.env
+    depends_on:
+      - cart-service
+      - product-service
+
+  payment-service:
+    build: ./services/payment-service
+    ports:
+      - "8005:8005"
+    env_file:
+      - ./services/payment-service/.env
+    depends_on:
+      - order-service
+
+  inventory-service:
+    build: ./services/inventory-service
+    ports:
+      - "8006:8006"
+    env_file:
+      - ./services/inventory-service/.env
+    depends_on:
+      - product-service
+
+volumes:
+  mongo-data:
