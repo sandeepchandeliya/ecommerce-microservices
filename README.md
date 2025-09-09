@@ -1,4 +1,4 @@
-# 🛒 E-Commerce Microservices Project
+# 🛒 E-Commerce Microservices 
 
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-green?logo=node.js)
 ![Express](https://img.shields.io/badge/Express.js-Backend-lightgrey?logo=express)
